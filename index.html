@@ -238,13 +238,21 @@
             border-radius: 8px;
             margin: 15px 0;
         }
+        
+        .debug-info {
+            font-family: monospace;
+            font-size: 0.8em;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>From Circles to Ellipses</h1>
-        <p class="subtitle">Pythagorean Triples via Rational Points on Conics</p>
-        <p class="copyright">© Lee McCulloch James</p>
-
+    <p class="subtitle">Pythagorean Triples via Rational Points on Conics</p>
+    
     <!-- Introduction -->
     <div class="intro-section">
         <h2>The Classical Picture: Gaussian Integers</h2>
@@ -345,7 +353,7 @@
         </div>
         <p>
             The eigenvalues of E are <span class="math">λ₁ = 1/2</span> and <span class="math">λ₂ = 3/2</span>, 
-            giving semi-axes <span class="math">a = √2</span> and <span class="math">b = √(2/3)</span>.
+            giving semi-axes <span class="math">a = √2</span> (along λ₁) and <span class="math">b = √(2/3)</span> (along λ₂).
         </p>
         <p>
             The <strong>eccentricity</strong> is:
@@ -354,7 +362,7 @@
             e = √(1 − b²/a²) = √(1 − (2/3)/2) = √(1 − 1/3) = <strong>√(2/3) ≈ 0.8165</strong>
         </div>
         <p>
-            This is a fairly eccentric ellipse — halfway between a circle (e = 0) and a parabola (e = 1).
+            This is a fairly eccentric ellipse — closer to a parabola (e = 1) than to a circle (e = 0).
         </p>
     </div>
     
@@ -418,7 +426,7 @@
                 <span>Current line</span>
             </div>
             <div class="legend-item">
-                <div class="legend-line" style="background: #e74c3c; opacity: 0.3;"></div>
+                <div class="legend-line" style="background: #e74c3c; opacity: 0.5;"></div>
                 <span>t = 1/2 boundary</span>
             </div>
         </div>
@@ -464,6 +472,8 @@
             (m, n) = (7, 3) → t = 3/7 ≈ 0.429<br>
             Triple: (40, 33, 37) — <span class="canonical">Canonical primitive</span>
         </div>
+        
+        <div class="debug-info" id="debugInfo"></div>
     </div>
     
     <!-- Table of triples -->
@@ -487,7 +497,9 @@
     </div>
     
     <script>
-        // Utility functions
+        // =====================
+        // UTILITY FUNCTIONS
+        // =====================
         function gcd(a, b) {
             a = Math.abs(a);
             b = Math.abs(b);
@@ -499,7 +511,7 @@
             return ((n % m) + m) % m;
         }
         
-        // Generate Eisenstein triple
+        // Generate Eisenstein triple from parameters
         function eisensteinTriple(m, n) {
             const a = m * m - n * n;
             const b = n * (2 * m - n);
@@ -512,6 +524,58 @@
             const sumMod3 = mod(m + n, 3);
             if (sumMod3 === 0) return 'non-primitive';
             return m > 2 * n ? 'canonical' : 'conjugate';
+        }
+        
+        // Get intersection point on Eisenstein ellipse for slope t
+        // Line: Y = t(X + 1) intersects X² - XY + Y² = 1
+        function getEisensteinIntersection(t) {
+            const denom = 1 - t + t * t;
+            const X = (1 - t * t) / denom;
+            const Y = (t * (2 - t)) / denom;
+            return { X, Y };
+        }
+        
+        // Verify a point is on the ellipse X² - XY + Y² = 1
+        function verifyOnEllipse(X, Y) {
+            return X * X - X * Y + Y * Y;
+        }
+        
+        // Draw the Eisenstein ellipse X² - XY + Y² = 1
+        // We solve for Y given X: Y² - XY + (X² - 1) = 0
+        // Y = (X ± √(X² - 4(X² - 1))) / 2 = (X ± √(4 - 3X²)) / 2
+        function drawEisensteinEllipse(ctx, cx, cy, scale) {
+            ctx.beginPath();
+            
+            // Upper branch: Y = (X + √(4 - 3X²)) / 2
+            const xMax = 2 / Math.sqrt(3); // where discriminant = 0
+            let first = true;
+            for (let X = -xMax; X <= xMax; X += 0.01) {
+                const disc = 4 - 3 * X * X;
+                if (disc >= 0) {
+                    const Y = (X + Math.sqrt(disc)) / 2;
+                    const px = cx + X * scale;
+                    const py = cy - Y * scale;
+                    if (first) {
+                        ctx.moveTo(px, py);
+                        first = false;
+                    } else {
+                        ctx.lineTo(px, py);
+                    }
+                }
+            }
+            
+            // Lower branch: Y = (X - √(4 - 3X²)) / 2
+            for (let X = xMax; X >= -xMax; X -= 0.01) {
+                const disc = 4 - 3 * X * X;
+                if (disc >= 0) {
+                    const Y = (X - Math.sqrt(disc)) / 2;
+                    const px = cx + X * scale;
+                    const py = cy - Y * scale;
+                    ctx.lineTo(px, py);
+                }
+            }
+            
+            ctx.closePath();
         }
         
         // Rational approximation
@@ -598,7 +662,7 @@
             ctx.stroke();
             ctx.setLineDash([]);
             
-            // Intersection point
+            // Intersection point on circle
             const X = (1 - t * t) / (1 + t * t);
             const Y = (2 * t) / (1 + t * t);
             
@@ -619,7 +683,7 @@
         }
         
         // =====================
-        // EISENSTEIN ELLIPSE
+        // EISENSTEIN ELLIPSE (SMALL)
         // =====================
         const ellipseCanvas = document.getElementById('ellipseCanvas');
         const ellipseCtx = ellipseCanvas.getContext('2d');
@@ -630,7 +694,7 @@
             const h = ellipseCanvas.height;
             const cx = w / 2;
             const cy = h / 2;
-            const scale = 100;
+            const scale = 120;
             
             ctx.clearRect(0, 0, w, h);
             
@@ -647,17 +711,7 @@
             // Ellipse X² - XY + Y² = 1
             ctx.strokeStyle = '#3498db';
             ctx.lineWidth = 2;
-            ctx.beginPath();
-            for (let theta = 0; theta <= 360; theta++) {
-                const rad = theta * Math.PI / 180;
-                const X = Math.cos(rad) + 0.5 * Math.sin(rad);
-                const Y = 0.866 * Math.sin(rad);
-                const px = cx + X * scale;
-                const py = cy - Y * scale;
-                if (theta === 0) ctx.moveTo(px, py);
-                else ctx.lineTo(px, py);
-            }
-            ctx.closePath();
+            drawEisensteinEllipse(ctx, cx, cy, scale);
             ctx.stroke();
             
             // Base point (-1, 0)
@@ -670,7 +724,7 @@
             ctx.fillText('(−1, 0)', cx - scale - 25, cy + 20);
             
             // t = 1/2 boundary line
-            ctx.strokeStyle = 'rgba(231, 76, 60, 0.3)';
+            ctx.strokeStyle = 'rgba(231, 76, 60, 0.4)';
             ctx.lineWidth = 2;
             ctx.setLineDash([8, 4]);
             const bx1 = -1.5, by1 = 0.5 * (bx1 + 1);
@@ -694,9 +748,7 @@
             ctx.setLineDash([]);
             
             // Intersection point
-            const denom = 1 - t + t * t;
-            const X = (1 - t * t) / denom;
-            const Y = (t * (2 - t)) / denom;
+            const { X, Y } = getEisensteinIntersection(t);
             
             // Determine color based on classification
             const frac = toFraction(t);
@@ -724,7 +776,7 @@
             // t = 1/2 label
             ctx.fillStyle = 'rgba(231, 76, 60, 0.7)';
             ctx.font = '11px Georgia';
-            ctx.fillText('t = ½', cx + 1.3 * scale, cy - 0.65 * scale);
+            ctx.fillText('t = ½', cx + 1.0 * scale, cy - 0.55 * scale);
         }
         
         // =====================
@@ -740,7 +792,9 @@
                     if (gcd(m, n) === 1) {
                         const triple = eisensteinTriple(m, n);
                         const cls = classify(m, n);
-                        triples.push({ m, n, t: n / m, ...triple, cls });
+                        const t = n / m;
+                        const { X, Y } = getEisensteinIntersection(t);
+                        triples.push({ m, n, t, ...triple, cls, X, Y });
                     }
                 }
             }
@@ -751,9 +805,9 @@
             const ctx = mainCtx;
             const w = mainCanvas.width;
             const h = mainCanvas.height;
-            const cx = w / 2 - 50;
-            const cy = h / 2;
-            const scale = 150;
+            const cx = w / 2 - 30;
+            const cy = h / 2 + 20;
+            const scale = 180;
             
             ctx.clearRect(0, 0, w, h);
             
@@ -770,7 +824,7 @@
             }
             
             // Axes
-            ctx.strokeStyle = '#ccc';
+            ctx.strokeStyle = '#bbb';
             ctx.lineWidth = 1.5;
             ctx.beginPath();
             ctx.moveTo(0, cy);
@@ -781,24 +835,14 @@
             
             // Axis labels
             ctx.fillStyle = '#666';
-            ctx.font = '12px Georgia';
+            ctx.font = '14px Georgia';
             ctx.fillText('X', w - 20, cy - 10);
             ctx.fillText('Y', cx + 10, 20);
             
             // Ellipse
             ctx.strokeStyle = '#3498db';
             ctx.lineWidth = 3;
-            ctx.beginPath();
-            for (let theta = 0; theta <= 360; theta++) {
-                const rad = theta * Math.PI / 180;
-                const X = Math.cos(rad) + 0.5 * Math.sin(rad);
-                const Y = 0.866 * Math.sin(rad);
-                const px = cx + X * scale;
-                const py = cy - Y * scale;
-                if (theta === 0) ctx.moveTo(px, py);
-                else ctx.lineTo(px, py);
-            }
-            ctx.closePath();
+            drawEisensteinEllipse(ctx, cx, cy, scale);
             ctx.stroke();
             
             // Base point
@@ -808,21 +852,21 @@
             ctx.fill();
             ctx.fillStyle = '#c0392b';
             ctx.font = 'bold 12px Georgia';
-            ctx.fillText('(−1, 0)', cx - scale - 10, cy + 25);
+            ctx.fillText('(−1, 0)', cx - scale - 15, cy + 25);
             
             // t = 1/2 boundary
-            ctx.strokeStyle = 'rgba(231, 76, 60, 0.4)';
+            ctx.strokeStyle = 'rgba(231, 76, 60, 0.5)';
             ctx.lineWidth = 2;
             ctx.setLineDash([10, 5]);
-            const t_half = 0.5;
+            const { X: bX, Y: bY } = getEisensteinIntersection(0.5);
             ctx.beginPath();
-            ctx.moveTo(cx - 1.5 * scale, cy - t_half * (-0.5) * scale);
-            ctx.lineTo(cx + 2 * scale, cy - t_half * 3 * scale);
+            ctx.moveTo(cx - scale, cy); // from (-1, 0)
+            ctx.lineTo(cx + bX * scale + 50, cy - (bY + 0.5 * 50/scale) * scale);
             ctx.stroke();
             ctx.setLineDash([]);
-            ctx.fillStyle = 'rgba(231, 76, 60, 0.7)';
+            ctx.fillStyle = 'rgba(231, 76, 60, 0.8)';
             ctx.font = '12px Georgia';
-            ctx.fillText('t = ½ (boundary)', cx + 1.5 * scale, cy - 1.1 * scale);
+            ctx.fillText('t = ½', cx + bX * scale + 20, cy - bY * scale - 30);
             
             // All triples
             const allTriples = generateTriples(8);
@@ -837,28 +881,25 @@
                     else if (showLines === 'conjugate' && tr.cls === 'conjugate') draw = true;
                     
                     if (draw && !(tr.m === currentM && tr.n === currentN)) {
-                        let color = 'rgba(39, 174, 96, 0.2)';
-                        if (tr.cls === 'conjugate') color = 'rgba(52, 152, 219, 0.2)';
-                        if (tr.cls === 'non-primitive') color = 'rgba(230, 126, 34, 0.2)';
+                        let color = 'rgba(39, 174, 96, 0.25)';
+                        if (tr.cls === 'conjugate') color = 'rgba(52, 152, 219, 0.25)';
+                        if (tr.cls === 'non-primitive') color = 'rgba(230, 126, 34, 0.25)';
                         
                         ctx.strokeStyle = color;
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(cx - scale, cy);
-                        const denom = 1 - tr.t + tr.t * tr.t;
-                        const X = (1 - tr.t * tr.t) / denom;
-                        const Y = (tr.t * (2 - tr.t)) / denom;
-                        ctx.lineTo(cx + X * scale, cy - Y * scale);
+                        ctx.lineTo(cx + tr.X * scale, cy - tr.Y * scale);
                         ctx.stroke();
                         
                         // Point
-                        let pointColor = 'rgba(39, 174, 96, 0.6)';
-                        if (tr.cls === 'conjugate') pointColor = 'rgba(52, 152, 219, 0.6)';
-                        if (tr.cls === 'non-primitive') pointColor = 'rgba(230, 126, 34, 0.6)';
+                        let pointColor = 'rgba(39, 174, 96, 0.7)';
+                        if (tr.cls === 'conjugate') pointColor = 'rgba(52, 152, 219, 0.7)';
+                        if (tr.cls === 'non-primitive') pointColor = 'rgba(230, 126, 34, 0.7)';
                         
                         ctx.fillStyle = pointColor;
                         ctx.beginPath();
-                        ctx.arc(cx + X * scale, cy - Y * scale, 5, 0, Math.PI * 2);
+                        ctx.arc(cx + tr.X * scale, cy - tr.Y * scale, 5, 0, Math.PI * 2);
                         ctx.fill();
                     }
                 }
@@ -866,14 +907,13 @@
             
             // Current line
             const t = currentN / currentM;
+            const { X, Y } = getEisensteinIntersection(t);
+            
             ctx.strokeStyle = '#9b59b6';
             ctx.lineWidth = 3;
             ctx.beginPath();
-            ctx.moveTo(cx - 1.3 * scale, cy - t * (-0.3) * scale);
-            const denom = 1 - t + t * t;
-            const X = (1 - t * t) / denom;
-            const Y = (t * (2 - t)) / denom;
-            ctx.lineTo(cx + (X + 0.3) * scale, cy - (Y + 0.3 * t) * scale);
+            ctx.moveTo(cx - scale - 20, cy + 20 * t); // extend slightly behind (-1,0)
+            ctx.lineTo(cx + X * scale + 30, cy - (Y + 30 * t / scale) * scale);
             ctx.stroke();
             
             // Current intersection point
@@ -884,7 +924,7 @@
             
             ctx.fillStyle = color;
             ctx.beginPath();
-            ctx.arc(cx + X * scale, cy - Y * scale, 10, 0, Math.PI * 2);
+            ctx.arc(cx + X * scale, cy - Y * scale, 12, 0, Math.PI * 2);
             ctx.fill();
             ctx.strokeStyle = '#fff';
             ctx.lineWidth = 2;
@@ -893,12 +933,20 @@
             // Point label
             ctx.fillStyle = '#333';
             ctx.font = '12px Georgia';
-            ctx.fillText(`(${X.toFixed(3)}, ${Y.toFixed(3)})`, cx + X * scale + 15, cy - Y * scale - 15);
+            ctx.fillText(`(${X.toFixed(3)}, ${Y.toFixed(3)})`, cx + X * scale + 18, cy - Y * scale - 18);
             
-            // Slope label
+            // Slope label on line
             ctx.fillStyle = '#9b59b6';
             ctx.font = 'bold 12px Georgia';
-            ctx.fillText(`t = ${currentN}/${currentM}`, cx - scale + 60, cy - t * 0.5 * scale - 10);
+            const labelX = cx - scale + 80;
+            const labelY = cy - t * 80;
+            ctx.fillText(`t = ${currentN}/${currentM}`, labelX, labelY - 8);
+            
+            // Debug: verify point is on ellipse
+            const check = verifyOnEllipse(X, Y);
+            document.getElementById('debugInfo').innerHTML = 
+                `<strong>Verification:</strong> X² - XY + Y² = ${check.toFixed(6)} (should be 1.000000)<br>` +
+                `Point: (${X.toFixed(6)}, ${Y.toFixed(6)}), t = ${t.toFixed(6)}`;
         }
         
         // =====================
