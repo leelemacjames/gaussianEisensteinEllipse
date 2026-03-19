@@ -247,6 +247,149 @@
             border-radius: 5px;
             margin-top: 10px;
         }
+
+        /* ── NEW: The Three Section ── */
+        .the-three-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            border-top: 4px solid #2ecc71;
+        }
+
+        .the-three-section h2 {
+            color: #34495e;
+            border-bottom: 2px solid #2ecc71;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .algebra-chain {
+            background: #f0faf4;
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin: 20px 0;
+            border: 1px solid #d4edda;
+        }
+
+        .algebra-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin: 12px 0;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.15em;
+        }
+
+        .step-marker {
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #2ecc71;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', serif;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-annotation {
+            font-family: 'Georgia', serif;
+            font-size: 0.78em;
+            color: #666;
+            font-style: italic;
+            margin-top: 2px;
+        }
+
+        .the-three-highlight {
+            display: inline-block;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            font-weight: bold;
+            padding: 1px 7px;
+            border-radius: 4px;
+            font-style: normal;
+        }
+
+        .dictionary-grid {
+            display: grid;
+            grid-template-columns: auto 1fr 1fr;
+            gap: 0;
+            margin: 18px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.95em;
+        }
+
+        .dict-cell {
+            padding: 10px 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dict-cell:nth-child(3n+1) {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .dict-cell.gauss-col {
+            border-left: 1px solid #eee;
+        }
+
+        .dict-cell.eis-col {
+            border-left: 1px solid #eee;
+        }
+
+        .dict-header {
+            background: #34495e !important;
+            color: white !important;
+            font-weight: bold !important;
+            text-align: center;
+        }
+
+        .dict-header.gauss-head { background: #c0392b !important; }
+        .dict-header.eis-head { background: #2980b9 !important; }
+
+        .canvas-pair {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .canvas-pair .canvas-label {
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-top: 6px;
+        }
+
+        .canvas-pair .gauss-label { color: #e74c3c; }
+        .canvas-pair .eis-label { color: #3498db; }
+
+        .observation-box {
+            background: #eaf7ef;
+            border-left: 4px solid #2ecc71;
+            padding: 15px 18px;
+            margin: 18px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95em;
+        }
+
+        .observation-box strong {
+            color: #27ae60;
+        }
     </style>
 </head>
 <body>
@@ -282,7 +425,142 @@
         </div>
     </div>
     
-    <!-- Side by side comparison -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- NEW SECTION: Where the 3 Comes From                -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="the-three-section">
+        <h2>Where the 3 Comes From</h2>
+
+        <p>
+            The Eisenstein norm form <span class="math">x² − xy + y²</span> looks unfamiliar next to the 
+            Gaussian <span class="math">x² + y²</span>. But one line of algebra reveals them as the same 
+            object — with a single coefficient changed. Complete the square in <span class="math">x</span>:
+        </p>
+
+        <div class="algebra-chain">
+            <div class="algebra-step">
+                <div class="step-marker">1</div>
+                <div class="step-content">
+                    x² − xy + y² &ensp;=&ensp; (x − y/2)² + y² − y²/4
+                    <div class="step-annotation">complete the square on x</div>
+                </div>
+            </div>
+            <div class="algebra-step">
+                <div class="step-marker">2</div>
+                <div class="step-content">
+                    =&ensp; (x − y/2)² &ensp;+&ensp; <span class="the-three-highlight">3</span>y²/4
+                    <div class="step-annotation">the 3 appears</div>
+                </div>
+            </div>
+            <div class="algebra-step">
+                <div class="step-marker">3</div>
+                <div class="step-content">
+                    =&ensp; (x − y/2)² &ensp;+&ensp; (√<span class="the-three-highlight">3</span> · y/2)²
+                    <div class="step-annotation">a sum of two squares — just like the Gaussian norm</div>
+                </div>
+            </div>
+        </div>
+
+        <p>
+            So <span class="math">x² − xy + y²</span> <em>is</em> a sum of two squares: it's 
+            <span class="math">U² + V²</span> where <span class="math">U = x − y/2</span> and 
+            <span class="math">V = √3 · y/2</span>. The Eisenstein norm is the Gaussian norm, 
+            viewed through coordinates that stretch one axis by <span class="math">√3</span>.
+        </p>
+
+        <p>
+            This is why the unit curve <span class="math">x² − xy + y² = 1</span> is an ellipse rather than 
+            a circle: the √3 compresses the <span class="math">y</span>-direction relative to the 
+            <span class="math">x</span>-direction. The eccentricity of the ellipse (≈ 0.816) is 
+            determined entirely by this factor.
+        </p>
+
+        <div class="canvas-pair">
+            <div>
+                <canvas id="csCircleCanvas" width="220" height="220"></canvas>
+                <div class="canvas-label gauss-label">U² + V² = 1</div>
+            </div>
+            <div style="display:flex;align-items:center;font-size:1.8em;color:#999;padding-bottom:20px;">→</div>
+            <div>
+                <canvas id="csEllipseCanvas" width="220" height="220"></canvas>
+                <div class="canvas-label eis-label">U² + 3V² = 1</div>
+            </div>
+        </div>
+
+        <p>
+            Now homogenise: set <span class="math">U = X/Z</span>, <span class="math">V = Y/Z</span>, 
+            and clear denominators. The unit curve <span class="math">U² + 3V² = 1</span> becomes
+        </p>
+
+        <div class="equation" style="border-left: 4px solid #2ecc71; text-align: left; padding-left: 25px;">
+            Gaussian Pythagorean: &ensp;X² + Y² = Z²<br>
+            Eisenstein Pythagorean: &ensp;X² + <span style="color:#27ae60;font-weight:bold;">3</span>Y² = Z²
+        </div>
+
+        <p>
+            That single <span class="the-three-highlight">3</span> is the entire difference between 
+            Gaussian and Eisenstein arithmetic, made visible. It is the discriminant of the ring ℤ[ω], 
+            the factor that determines which primes split and which remain inert, and geometrically it is 
+            the ratio of the eigenvalues of the Eisenstein quadratic form.
+        </p>
+
+        <div class="observation-box">
+            <strong>The dictionary.</strong> Every fact about Pythagorean triples has an Eisenstein analogue, 
+            obtained by replacing "+&thinsp;Y²" with "+&thinsp;3Y²":
+        </div>
+
+        <div class="dictionary-grid">
+            <div class="dict-cell dict-header">&nbsp;</div>
+            <div class="dict-cell dict-header gauss-head">Gaussian (circle)</div>
+            <div class="dict-cell dict-header eis-head">Eisenstein (ellipse)</div>
+
+            <div class="dict-cell">Ring</div>
+            <div class="dict-cell gauss-col">ℤ[i], &ensp;i² = −1</div>
+            <div class="dict-cell eis-col">ℤ[ω], &ensp;ω² + ω + 1 = 0</div>
+
+            <div class="dict-cell">Norm form</div>
+            <div class="dict-cell gauss-col">x² + y²</div>
+            <div class="dict-cell eis-col">x² − xy + y²</div>
+
+            <div class="dict-cell">Completed square</div>
+            <div class="dict-cell gauss-col">U² + V²</div>
+            <div class="dict-cell eis-col">U² + <strong style="color:#27ae60">3</strong>V²</div>
+
+            <div class="dict-cell">Unit curve</div>
+            <div class="dict-cell gauss-col">circle (e = 0)</div>
+            <div class="dict-cell eis-col">ellipse (e = √(2/3))</div>
+
+            <div class="dict-cell">Pythagorean equation</div>
+            <div class="dict-cell gauss-col">X² + Y² = Z²</div>
+            <div class="dict-cell eis-col">X² + <strong style="color:#27ae60">3</strong>Y² = Z²</div>
+
+            <div class="dict-cell">Discriminant</div>
+            <div class="dict-cell gauss-col">−4 &ensp;(≡ 1 governs splitting)</div>
+            <div class="dict-cell eis-col">−<strong style="color:#27ae60">3</strong> &ensp;(≡ 1 governs splitting)</div>
+
+            <div class="dict-cell">Primes that split</div>
+            <div class="dict-cell gauss-col">p ≡ 1 (mod 4)</div>
+            <div class="dict-cell eis-col">p ≡ 1 (mod <strong style="color:#27ae60">3</strong>)</div>
+
+            <div class="dict-cell">Base point</div>
+            <div class="dict-cell gauss-col">(−1, 0) on the circle</div>
+            <div class="dict-cell eis-col">(−1, 0) on the ellipse</div>
+
+            <div class="dict-cell">Parametrisation</div>
+            <div class="dict-cell gauss-col">(p²−q², 2pq, p²+q²)</div>
+            <div class="dict-cell eis-col">(m²−n², n(2m−n), m²−mn+n²)</div>
+        </div>
+
+        <p>
+            The passage from Gaussian to Eisenstein is not a different <em>kind</em> of mathematics — 
+            it is the same structure with a different discriminant. The 3 is not a curiosity; it is the 
+            organising constant of the entire theory.
+        </p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- ORIGINAL: Side-by-side comparison                  -->
+    <!-- ═══════════════════════════════════════════════════ -->
     <div class="comparison-grid">
         <!-- Gaussian / Circle -->
         <div class="comparison-box gaussian-box">
@@ -363,6 +641,7 @@
         </div>
         <p>
             This is a fairly eccentric ellipse — closer to a parabola (e = 1) than to a circle (e = 0).
+            Notice that the eigenvalue ratio is exactly <strong>3</strong> — the same 3 from the completed square.
         </p>
     </div>
     
@@ -511,7 +790,6 @@
             return ((n % m) + m) % m;
         }
         
-        // Generate Eisenstein triple from parameters
         function eisensteinTriple(m, n) {
             const a = m * m - n * n;
             const b = n * (2 * m - n);
@@ -519,15 +797,12 @@
             return { a, b, c };
         }
         
-        // Classify triple
         function classify(m, n) {
             const sumMod3 = mod(m + n, 3);
             if (sumMod3 === 0) return 'non-primitive';
             return m > 2 * n ? 'canonical' : 'conjugate';
         }
         
-        // Get intersection point on Eisenstein ellipse for slope t
-        // Line: Y = t(X + 1) intersects X² - XY + Y² = 1
         function getEisensteinIntersection(t) {
             const denom = 1 - t + t * t;
             const X = (1 - t * t) / denom;
@@ -535,19 +810,13 @@
             return { X, Y };
         }
         
-        // Verify a point is on the ellipse X² - XY + Y² = 1
         function verifyOnEllipse(X, Y) {
             return X * X - X * Y + Y * Y;
         }
         
-        // Draw the Eisenstein ellipse X² - XY + Y² = 1
-        // We solve for Y given X: Y² - XY + (X² - 1) = 0
-        // Y = (X ± √(X² - 4(X² - 1))) / 2 = (X ± √(4 - 3X²)) / 2
         function drawEisensteinEllipse(ctx, cx, cy, scale) {
             ctx.beginPath();
-            
-            // Upper branch: Y = (X + √(4 - 3X²)) / 2
-            const xMax = 2 / Math.sqrt(3); // where discriminant = 0
+            const xMax = 2 / Math.sqrt(3);
             let first = true;
             for (let X = -xMax; X <= xMax; X += 0.01) {
                 const disc = 4 - 3 * X * X;
@@ -555,30 +824,20 @@
                     const Y = (X + Math.sqrt(disc)) / 2;
                     const px = cx + X * scale;
                     const py = cy - Y * scale;
-                    if (first) {
-                        ctx.moveTo(px, py);
-                        first = false;
-                    } else {
-                        ctx.lineTo(px, py);
-                    }
+                    if (first) { ctx.moveTo(px, py); first = false; }
+                    else ctx.lineTo(px, py);
                 }
             }
-            
-            // Lower branch: Y = (X - √(4 - 3X²)) / 2
             for (let X = xMax; X >= -xMax; X -= 0.01) {
                 const disc = 4 - 3 * X * X;
                 if (disc >= 0) {
                     const Y = (X - Math.sqrt(disc)) / 2;
-                    const px = cx + X * scale;
-                    const py = cy - Y * scale;
-                    ctx.lineTo(px, py);
+                    ctx.lineTo(cx + X * scale, cy - Y * scale);
                 }
             }
-            
             ctx.closePath();
         }
         
-        // Rational approximation
         function toFraction(t, maxDenom = 20) {
             let bestNum = 1, bestDenom = 1, bestErr = Math.abs(t - 1);
             for (let d = 1; d <= maxDenom; d++) {
@@ -596,161 +855,201 @@
         }
         
         // =====================
-        // GAUSSIAN CIRCLE
+        // NEW: Completing-the-square canvases
+        // =====================
+        function drawCSCircle() {
+            const canvas = document.getElementById('csCircleCanvas');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+            const cx = w / 2, cy = h / 2, scale = 85;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Axes
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
+            ctx.stroke();
+
+            // Unit circle
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.arc(cx, cy, scale, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Label axes
+            ctx.fillStyle = '#999';
+            ctx.font = 'italic 12px Georgia';
+            ctx.fillText('U', w - 16, cy - 6);
+            ctx.fillText('V', cx + 6, 14);
+
+            // Tick at 1
+            ctx.fillStyle = '#bbb';
+            ctx.font = '10px Georgia';
+            ctx.fillText('1', cx + scale + 4, cy + 14);
+            ctx.fillText('1', cx + 6, cy - scale - 4);
+        }
+
+        function drawCSEllipse() {
+            const canvas = document.getElementById('csEllipseCanvas');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+            const cx = w / 2, cy = h / 2, scale = 85;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Axes
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
+            ctx.stroke();
+
+            // Ellipse U² + 3V² = 1: semi-axes a=1 (U), b=1/√3 (V)
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.ellipse(cx, cy, scale, scale / Math.sqrt(3), 0, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Ghost circle for comparison
+            ctx.strokeStyle = 'rgba(231, 76, 60, 0.2)';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.arc(cx, cy, scale, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Label axes
+            ctx.fillStyle = '#999';
+            ctx.font = 'italic 12px Georgia';
+            ctx.fillText('U', w - 16, cy - 6);
+            ctx.fillText('V', cx + 6, 14);
+
+            // Ticks
+            ctx.fillStyle = '#bbb';
+            ctx.font = '10px Georgia';
+            ctx.fillText('1', cx + scale + 4, cy + 14);
+            const bTick = scale / Math.sqrt(3);
+            ctx.fillText('1/√3', cx + 6, cy - bTick - 4);
+
+            // Arrow showing √3 compression
+            ctx.fillStyle = '#27ae60';
+            ctx.font = 'bold 11px Georgia';
+            ctx.fillText('÷√3', cx + 28, cy - (scale + bTick) / 2 + 2);
+        }
+
+        // =====================
+        // GAUSSIAN CIRCLE (original)
         // =====================
         const circleCanvas = document.getElementById('circleCanvas');
         const circleCtx = circleCanvas.getContext('2d');
         
         function drawCircle(t) {
             const ctx = circleCtx;
-            const w = circleCanvas.width;
-            const h = circleCanvas.height;
-            const cx = w / 2;
-            const cy = h / 2;
-            const scale = 140;
+            const w = circleCanvas.width, h = circleCanvas.height;
+            const cx = w / 2, cy = h / 2, scale = 140;
             
             ctx.clearRect(0, 0, w, h);
             
-            // Axes
-            ctx.strokeStyle = '#ddd';
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#ddd'; ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.moveTo(0, cy);
-            ctx.lineTo(w, cy);
-            ctx.moveTo(cx, 0);
-            ctx.lineTo(cx, h);
+            ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
             ctx.stroke();
             
-            // Grid
             ctx.strokeStyle = '#f0f0f0';
             for (let i = -1; i <= 1; i += 0.5) {
                 if (i !== 0) {
                     ctx.beginPath();
-                    ctx.moveTo(cx + i * scale, 0);
-                    ctx.lineTo(cx + i * scale, h);
-                    ctx.moveTo(0, cy - i * scale);
-                    ctx.lineTo(w, cy - i * scale);
+                    ctx.moveTo(cx + i * scale, 0); ctx.lineTo(cx + i * scale, h);
+                    ctx.moveTo(0, cy - i * scale); ctx.lineTo(w, cy - i * scale);
                     ctx.stroke();
                 }
             }
             
-            // Unit circle
-            ctx.strokeStyle = '#e74c3c';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(cx, cy, scale, 0, Math.PI * 2);
-            ctx.stroke();
+            ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(cx, cy, scale, 0, Math.PI * 2); ctx.stroke();
             
-            // Base point (-1, 0)
             ctx.fillStyle = '#e74c3c';
-            ctx.beginPath();
-            ctx.arc(cx - scale, cy, 6, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#333';
-            ctx.font = '12px Georgia';
+            ctx.beginPath(); ctx.arc(cx - scale, cy, 6, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#333'; ctx.font = '12px Georgia';
             ctx.fillText('(−1, 0)', cx - scale - 25, cy + 20);
             
-            // Line Y = t(X + 1)
-            ctx.strokeStyle = '#9b59b6';
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#9b59b6'; ctx.lineWidth = 2;
             ctx.setLineDash([5, 5]);
             const x1 = -1.5, y1 = t * (x1 + 1);
             const x2 = 1.5, y2 = t * (x2 + 1);
             ctx.beginPath();
             ctx.moveTo(cx + x1 * scale, cy - y1 * scale);
             ctx.lineTo(cx + x2 * scale, cy - y2 * scale);
-            ctx.stroke();
-            ctx.setLineDash([]);
+            ctx.stroke(); ctx.setLineDash([]);
             
-            // Intersection point on circle
             const X = (1 - t * t) / (1 + t * t);
             const Y = (2 * t) / (1 + t * t);
             
             ctx.fillStyle = '#27ae60';
-            ctx.beginPath();
-            ctx.arc(cx + X * scale, cy - Y * scale, 8, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(cx + X * scale, cy - Y * scale, 8, 0, Math.PI * 2); ctx.fill();
             
-            // Label
-            ctx.fillStyle = '#333';
-            ctx.font = '11px Georgia';
+            ctx.fillStyle = '#333'; ctx.font = '11px Georgia';
             ctx.fillText(`(${X.toFixed(2)}, ${Y.toFixed(2)})`, cx + X * scale + 10, cy - Y * scale - 10);
             
-            // Title
-            ctx.fillStyle = '#e74c3c';
-            ctx.font = 'bold 14px Georgia';
+            ctx.fillStyle = '#e74c3c'; ctx.font = 'bold 14px Georgia';
             ctx.fillText('X² + Y² = 1', cx + 50, 25);
         }
         
         // =====================
-        // EISENSTEIN ELLIPSE (SMALL)
+        // EISENSTEIN ELLIPSE (small)
         // =====================
         const ellipseCanvas = document.getElementById('ellipseCanvas');
         const ellipseCtx = ellipseCanvas.getContext('2d');
         
         function drawEllipseSimple(t) {
             const ctx = ellipseCtx;
-            const w = ellipseCanvas.width;
-            const h = ellipseCanvas.height;
-            const cx = w / 2;
-            const cy = h / 2;
-            const scale = 120;
+            const w = ellipseCanvas.width, h = ellipseCanvas.height;
+            const cx = w / 2, cy = h / 2, scale = 120;
             
             ctx.clearRect(0, 0, w, h);
             
-            // Axes
-            ctx.strokeStyle = '#ddd';
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#ddd'; ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.moveTo(0, cy);
-            ctx.lineTo(w, cy);
-            ctx.moveTo(cx, 0);
-            ctx.lineTo(cx, h);
+            ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
             ctx.stroke();
             
-            // Ellipse X² - XY + Y² = 1
-            ctx.strokeStyle = '#3498db';
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#3498db'; ctx.lineWidth = 2;
             drawEisensteinEllipse(ctx, cx, cy, scale);
             ctx.stroke();
             
-            // Base point (-1, 0)
             ctx.fillStyle = '#e74c3c';
-            ctx.beginPath();
-            ctx.arc(cx - scale, cy, 6, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#333';
-            ctx.font = '12px Georgia';
+            ctx.beginPath(); ctx.arc(cx - scale, cy, 6, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#333'; ctx.font = '12px Georgia';
             ctx.fillText('(−1, 0)', cx - scale - 25, cy + 20);
             
-            // t = 1/2 boundary line
-            ctx.strokeStyle = 'rgba(231, 76, 60, 0.4)';
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgba(231, 76, 60, 0.4)'; ctx.lineWidth = 2;
             ctx.setLineDash([8, 4]);
             const bx1 = -1.5, by1 = 0.5 * (bx1 + 1);
             const bx2 = 2, by2 = 0.5 * (bx2 + 1);
             ctx.beginPath();
             ctx.moveTo(cx + bx1 * scale, cy - by1 * scale);
             ctx.lineTo(cx + bx2 * scale, cy - by2 * scale);
-            ctx.stroke();
-            ctx.setLineDash([]);
+            ctx.stroke(); ctx.setLineDash([]);
             
-            // Current line Y = t(X + 1)
-            ctx.strokeStyle = '#9b59b6';
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#9b59b6'; ctx.lineWidth = 2;
             ctx.setLineDash([5, 5]);
             const x1 = -1.5, y1 = t * (x1 + 1);
             const x2 = 2, y2 = t * (x2 + 1);
             ctx.beginPath();
             ctx.moveTo(cx + x1 * scale, cy - y1 * scale);
             ctx.lineTo(cx + x2 * scale, cy - y2 * scale);
-            ctx.stroke();
-            ctx.setLineDash([]);
+            ctx.stroke(); ctx.setLineDash([]);
             
-            // Intersection point
             const { X, Y } = getEisensteinIntersection(t);
-            
-            // Determine color based on classification
             const frac = toFraction(t);
             const m = frac.denom, n = frac.num;
             const cls = classify(m, n);
@@ -759,28 +1058,20 @@
             if (cls === 'non-primitive') color = '#e67e22';
             
             ctx.fillStyle = color;
-            ctx.beginPath();
-            ctx.arc(cx + X * scale, cy - Y * scale, 8, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(cx + X * scale, cy - Y * scale, 8, 0, Math.PI * 2); ctx.fill();
             
-            // Label
-            ctx.fillStyle = '#333';
-            ctx.font = '11px Georgia';
+            ctx.fillStyle = '#333'; ctx.font = '11px Georgia';
             ctx.fillText(`(${X.toFixed(2)}, ${Y.toFixed(2)})`, cx + X * scale + 10, cy - Y * scale - 10);
             
-            // Title
-            ctx.fillStyle = '#3498db';
-            ctx.font = 'bold 14px Georgia';
+            ctx.fillStyle = '#3498db'; ctx.font = 'bold 14px Georgia';
             ctx.fillText('X² − XY + Y² = 1', cx + 30, 25);
             
-            // t = 1/2 label
-            ctx.fillStyle = 'rgba(231, 76, 60, 0.7)';
-            ctx.font = '11px Georgia';
+            ctx.fillStyle = 'rgba(231, 76, 60, 0.7)'; ctx.font = '11px Georgia';
             ctx.fillText('t = ½', cx + 1.0 * scale, cy - 0.55 * scale);
         }
         
         // =====================
-        // MAIN CANVAS
+        // MAIN CANVAS (original)
         // =====================
         const mainCanvas = document.getElementById('mainCanvas');
         const mainCtx = mainCanvas.getContext('2d');
@@ -803,75 +1094,50 @@
         
         function drawMainCanvas(currentM, currentN, showLines) {
             const ctx = mainCtx;
-            const w = mainCanvas.width;
-            const h = mainCanvas.height;
-            const cx = w / 2 - 30;
-            const cy = h / 2 + 20;
-            const scale = 180;
+            const w = mainCanvas.width, h = mainCanvas.height;
+            const cx = w / 2 - 30, cy = h / 2 + 20, scale = 180;
             
             ctx.clearRect(0, 0, w, h);
             
-            // Background grid
-            ctx.strokeStyle = '#f0f0f0';
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#f0f0f0'; ctx.lineWidth = 1;
             for (let i = -2; i <= 2; i += 0.5) {
                 ctx.beginPath();
-                ctx.moveTo(cx + i * scale, 0);
-                ctx.lineTo(cx + i * scale, h);
-                ctx.moveTo(0, cy - i * scale);
-                ctx.lineTo(w, cy - i * scale);
+                ctx.moveTo(cx + i * scale, 0); ctx.lineTo(cx + i * scale, h);
+                ctx.moveTo(0, cy - i * scale); ctx.lineTo(w, cy - i * scale);
                 ctx.stroke();
             }
             
-            // Axes
-            ctx.strokeStyle = '#bbb';
-            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1.5;
             ctx.beginPath();
-            ctx.moveTo(0, cy);
-            ctx.lineTo(w, cy);
-            ctx.moveTo(cx, 0);
-            ctx.lineTo(cx, h);
+            ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+            ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
             ctx.stroke();
             
-            // Axis labels
-            ctx.fillStyle = '#666';
-            ctx.font = '14px Georgia';
+            ctx.fillStyle = '#666'; ctx.font = '14px Georgia';
             ctx.fillText('X', w - 20, cy - 10);
             ctx.fillText('Y', cx + 10, 20);
             
-            // Ellipse
-            ctx.strokeStyle = '#3498db';
-            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#3498db'; ctx.lineWidth = 3;
             drawEisensteinEllipse(ctx, cx, cy, scale);
             ctx.stroke();
             
-            // Base point
             ctx.fillStyle = '#e74c3c';
-            ctx.beginPath();
-            ctx.arc(cx - scale, cy, 8, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#c0392b';
-            ctx.font = 'bold 12px Georgia';
+            ctx.beginPath(); ctx.arc(cx - scale, cy, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#c0392b'; ctx.font = 'bold 12px Georgia';
             ctx.fillText('(−1, 0)', cx - scale - 15, cy + 25);
             
-            // t = 1/2 boundary
-            ctx.strokeStyle = 'rgba(231, 76, 60, 0.5)';
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgba(231, 76, 60, 0.5)'; ctx.lineWidth = 2;
             ctx.setLineDash([10, 5]);
             const { X: bX, Y: bY } = getEisensteinIntersection(0.5);
             ctx.beginPath();
-            ctx.moveTo(cx - scale, cy); // from (-1, 0)
+            ctx.moveTo(cx - scale, cy);
             ctx.lineTo(cx + bX * scale + 50, cy - (bY + 0.5 * 50/scale) * scale);
-            ctx.stroke();
-            ctx.setLineDash([]);
-            ctx.fillStyle = 'rgba(231, 76, 60, 0.8)';
-            ctx.font = '12px Georgia';
+            ctx.stroke(); ctx.setLineDash([]);
+            ctx.fillStyle = 'rgba(231, 76, 60, 0.8)'; ctx.font = '12px Georgia';
             ctx.fillText('t = ½', cx + bX * scale + 20, cy - bY * scale - 30);
             
-            // All triples
             const allTriples = generateTriples(8);
             
-            // Draw lines based on filter
             if (showLines !== 'none') {
                 for (const tr of allTriples) {
                     let draw = false;
@@ -885,14 +1151,12 @@
                         if (tr.cls === 'conjugate') color = 'rgba(52, 152, 219, 0.25)';
                         if (tr.cls === 'non-primitive') color = 'rgba(230, 126, 34, 0.25)';
                         
-                        ctx.strokeStyle = color;
-                        ctx.lineWidth = 1;
+                        ctx.strokeStyle = color; ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(cx - scale, cy);
                         ctx.lineTo(cx + tr.X * scale, cy - tr.Y * scale);
                         ctx.stroke();
                         
-                        // Point
                         let pointColor = 'rgba(39, 174, 96, 0.7)';
                         if (tr.cls === 'conjugate') pointColor = 'rgba(52, 152, 219, 0.7)';
                         if (tr.cls === 'non-primitive') pointColor = 'rgba(230, 126, 34, 0.7)';
@@ -905,18 +1169,15 @@
                 }
             }
             
-            // Current line
             const t = currentN / currentM;
             const { X, Y } = getEisensteinIntersection(t);
             
-            ctx.strokeStyle = '#9b59b6';
-            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#9b59b6'; ctx.lineWidth = 3;
             ctx.beginPath();
-            ctx.moveTo(cx - scale - 20, cy + 20 * t); // extend slightly behind (-1,0)
+            ctx.moveTo(cx - scale - 20, cy + 20 * t);
             ctx.lineTo(cx + X * scale + 30, cy - (Y + 30 * t / scale) * scale);
             ctx.stroke();
             
-            // Current intersection point
             const cls = classify(currentM, currentN);
             let color = '#27ae60';
             if (cls === 'conjugate') color = '#3498db';
@@ -926,23 +1187,14 @@
             ctx.beginPath();
             ctx.arc(cx + X * scale, cy - Y * scale, 12, 0, Math.PI * 2);
             ctx.fill();
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
             
-            // Point label
-            ctx.fillStyle = '#333';
-            ctx.font = '12px Georgia';
+            ctx.fillStyle = '#333'; ctx.font = '12px Georgia';
             ctx.fillText(`(${X.toFixed(3)}, ${Y.toFixed(3)})`, cx + X * scale + 18, cy - Y * scale - 18);
             
-            // Slope label on line
-            ctx.fillStyle = '#9b59b6';
-            ctx.font = 'bold 12px Georgia';
-            const labelX = cx - scale + 80;
-            const labelY = cy - t * 80;
-            ctx.fillText(`t = ${currentN}/${currentM}`, labelX, labelY - 8);
+            ctx.fillStyle = '#9b59b6'; ctx.font = 'bold 12px Georgia';
+            ctx.fillText(`t = ${currentN}/${currentM}`, cx - scale + 80, cy - t * 80 - 8);
             
-            // Debug: verify point is on ellipse
             const check = verifyOnEllipse(X, Y);
             document.getElementById('debugInfo').innerHTML = 
                 `<strong>Verification:</strong> X² - XY + Y² = ${check.toFixed(6)} (should be 1.000000)<br>` +
@@ -956,9 +1208,7 @@
             const t = parseFloat(document.getElementById('gaussianSlope').value);
             const frac = toFraction(t, 15);
             document.getElementById('gaussianSlopeDisplay').textContent = `t = ${frac.num}/${frac.denom}`;
-            
             drawCircle(t);
-            
             const p = frac.denom, q = frac.num;
             const a = Math.abs(p * p - q * q);
             const b = 2 * p * q;
@@ -970,18 +1220,14 @@
             const t = parseFloat(document.getElementById('eisensteinSlope').value);
             const frac = toFraction(t, 15);
             document.getElementById('eisensteinSlopeDisplay').textContent = `t = ${frac.num}/${frac.denom}`;
-            
             drawEllipseSimple(t);
-            
             const m = frac.denom, n = frac.num;
             const triple = eisensteinTriple(m, n);
             const cls = classify(m, n);
-            
             let clsHtml = '';
             if (cls === 'canonical') clsHtml = '<span class="canonical">Canonical</span>';
             else if (cls === 'conjugate') clsHtml = '<span class="conjugate">Conjugate</span>';
             else clsHtml = '<span class="non-primitive">Non-primitive</span>';
-            
             document.getElementById('eisensteinTriple').innerHTML = 
                 `Triple: (${triple.a}, ${triple.b}, ${triple.c}) — ${clsHtml}`;
         }
@@ -989,20 +1235,16 @@
         function updateMain() {
             const m = parseInt(document.getElementById('paramM').value);
             let n = parseInt(document.getElementById('paramN').value);
-            
-            // Ensure n < m and gcd(m,n) = 1
             if (n >= m) n = m - 1;
             while (n > 0 && gcd(m, n) !== 1) n--;
             if (n === 0) n = 1;
             
-            // Update n dropdown
             const nSelect = document.getElementById('paramN');
             nSelect.innerHTML = '';
             for (let i = 1; i < m; i++) {
                 if (gcd(m, i) === 1) {
                     const opt = document.createElement('option');
-                    opt.value = i;
-                    opt.textContent = i;
+                    opt.value = i; opt.textContent = i;
                     if (i === n) opt.selected = true;
                     nSelect.appendChild(opt);
                 }
@@ -1014,7 +1256,6 @@
             const triple = eisensteinTriple(m, n);
             const cls = classify(m, n);
             const t = n / m;
-            
             let clsHtml = '';
             if (cls === 'canonical') clsHtml = '<span class="canonical">Canonical primitive</span>';
             else if (cls === 'conjugate') clsHtml = '<span class="conjugate">Conjugate primitive</span>';
@@ -1028,27 +1269,19 @@
         function updateTable() {
             const triples = generateTriples(10);
             triples.sort((a, b) => a.t - b.t);
-            
             const tbody = document.getElementById('triplesTable');
             tbody.innerHTML = '';
-            
             for (const tr of triples.slice(0, 20)) {
                 const row = document.createElement('tr');
-                
                 let clsHtml = '';
                 if (tr.cls === 'canonical') clsHtml = '<span class="canonical">Canonical</span>';
                 else if (tr.cls === 'conjugate') clsHtml = '<span class="conjugate">Conjugate</span>';
                 else clsHtml = '<span class="non-primitive">Non-primitive</span>';
-                
                 row.innerHTML = `
-                    <td>${tr.m}</td>
-                    <td>${tr.n}</td>
+                    <td>${tr.m}</td><td>${tr.n}</td>
                     <td>${tr.n}/${tr.m} ≈ ${tr.t.toFixed(3)}</td>
-                    <td>${tr.a}</td>
-                    <td>${tr.b}</td>
-                    <td>${tr.c}</td>
-                    <td>${clsHtml}</td>
-                `;
+                    <td>${tr.a}</td><td>${tr.b}</td><td>${tr.c}</td>
+                    <td>${clsHtml}</td>`;
                 tbody.appendChild(row);
             }
         }
@@ -1061,6 +1294,8 @@
         document.getElementById('showAllLines').addEventListener('change', updateMain);
         
         // Initialize
+        drawCSCircle();
+        drawCSEllipse();
         updateGaussian();
         updateEisenstein();
         updateMain();
@@ -1068,3 +1303,4 @@
     </script>
 </body>
 </html>
+
